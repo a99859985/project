@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>修改訂單</title>
+	<meta name="Author" content="P.H.Peng">
+	<link rev="made" href="mailto:U0424012@smail.nuu.edu.tw">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style type="text/css">
+	</style>
+</head>
+<body background="/bg.png">
+<font size="6"><center>修改訂單</center></font>
+<hr>
+<?php
+
+	$control_account  = @$_COOKIE["control_account"];
+	$control_password = @$_COOKIE["control_password"];
+
+	if( $control_account=="Ben" && $control_password=="99859985"){
+
+	}
+	else{
+		die("權限錯誤<br>");
+	}
+	
+	$db_server = "localhost";
+	$db_name   = "pizza";
+	$db_user   = "Ben";
+	$db_passwd = "99859985";
+
+	if(@$conn=mysqli_connect($db_server,$db_user,$db_passwd)){
+		#echo "資料庫連線成功<br>";
+	}
+	else{
+		die("資料庫連線失敗<br>");
+	}
+
+	if(@mysqli_select_db($conn,$db_name)){
+		#echo "資料庫使用成功<br>";
+	}
+	else{
+		die("無法使用資料庫<br>");
+	}
+
+	mysqli_query($conn,"SET NAMES UTF8");
+	
+	$id			=	$_POST['id'];
+	$status		=	$_POST['status'];
+
+	$sql = "UPDATE `order_form` SET `order_status` = '$status' WHERE `order_form`.`order_id` =$id";
+
+
+	if(mysqli_query($conn,$sql)){
+		echo "修改訂單成功<br>";
+	}
+	else{
+		die("修改訂單失敗<br>");
+	}
+
+	mysqli_close($conn);
+?>
+</body>
+</html>
