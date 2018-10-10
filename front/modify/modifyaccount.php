@@ -12,7 +12,7 @@
 <hr>
 <?php
 
-	$member_username  = @$_COOKIE["member_username"];
+	$member_username = @$_COOKIE["member_username"];
 	$member_password = @$_COOKIE["member_password"];
 
 	if(!$member_username){
@@ -42,19 +42,23 @@
 	}
 
 	mysqli_query($conn,"SET NAMES UTF8");
-	
 	$member_id			=	$_POST['id'];
+	$member_username	=	$_POST['member_username'];
 	$member_password	=	$_POST['member_password'];
 	
 
 	$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
 
+	
 
 	if(mysqli_query($conn,$sql)){
 		echo "修改會員資料成功<br>";
+		echo "<button onclick=history.go(-2);>回上一頁</button>";
 	}
 	else{
-		die("修改會員資料失敗<br>");
+		echo "修改會員資料失敗<br>";
+		echo "<button onclick=history.go(-2);>回上一頁</button>";
+		die();
 	}
 
 	mysqli_close($conn);

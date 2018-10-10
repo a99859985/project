@@ -12,11 +12,11 @@
 <hr>
 <?php
 
-	$member_account  = @$_COOKIE["member_account"];
+	$member_username  = @$_COOKIE["member_username"];
 	$member_password = @$_COOKIE["member_password"];
 
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -62,7 +62,7 @@
 	echo "<td><center><font size=5>商品圖片	</font></center></td>";
 	echo "<td><center><font size=5>商品價格	</font></center></td>";
 	echo "<td><center><font size=5>商品介紹	</font></center></td>";
-	if($member_account){
+	if($member_username){
 		echo "<form name=form method=post action=cart.php>";
 		echo "<input type=hidden name=id value=$id>";
 		echo "<td><center><font size=5>選購數量	</font></center></td>";
@@ -90,7 +90,7 @@
 			}
 			echo "<td><center><font size=5>".$row[2]."</font></center></td>";
 			echo "<td><center><font size=5>".$row[3]."</font></center></td>";
-			if($member_account){
+			if($member_username){
 				echo "<td><center><font size=5><input type=text name=buy_$row[0] size=1 ></font></center></td>";
 			}
 			echo "</tr>";
@@ -99,7 +99,7 @@
 
 	echo "</table>";
 
-	if($member_account){
+	if($member_username){
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

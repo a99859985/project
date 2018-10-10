@@ -43,13 +43,10 @@
 
 	mysqli_query($conn,"SET NAMES UTF8");
 	
-	$member_id	=	$_POST['id'];
+	$id	=	$_POST['id'];
 
-	$sql = "SELECT * FROM member where member_id= $member_id";
-	/*$id	=	$_POST['id'];
-
-	$sql = "SELECT * FROM member where id= $id";*/
-
+	$sql = "SELECT * FROM member where member_id= $id";
+	
 	$result = mysqli_query($conn,$sql);
 
 	$row = mysqli_fetch_row($result);
@@ -57,7 +54,7 @@
 	echo "<form name=form method=post action=modifyaccount.php>";
 	echo "<center>";
 	echo "<table>";
-	echo "<input type=hidden name=member_id value=$member_id>";
+	echo "<input type=hidden name=id value=$id>";
 	echo "<tr><LI><font size=3>帳號:</font><input type=text		name=member_username	value=$row[1] disabled=disabled></LI></tr><br>";
 	echo "<tr><LI><font size=3>密碼:</font><input type=password	name=member_password	value=$row[2] maxlength=30 required=required></LI></tr><br>";
 
