@@ -12,10 +12,10 @@
 <hr>
 <?php
 
-	$member_account  = @$_COOKIE["member_account"];
+	$member_username  = @$_COOKIE["member_username"];
 	$member_password = @$_COOKIE["member_password"];
 
-	if(!$member_account){
+	if(!$member_username){
 		die("權限錯誤<br>");
 	}
 	else{
@@ -23,7 +23,7 @@
 	}
 	
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -43,15 +43,11 @@
 
 	mysqli_query($conn,"SET NAMES UTF8");
 	
-	$id			=	$_POST['id'];
-	$password	=	$_POST['password'];
-	$name		=	$_POST['name'];
-	$phone		=	$_POST['phone'];
-	$address	= 	$_POST['address'];
-	$email		=	$_POST['email'];
+	$member_id			=	$_POST['id'];
+	$member_password	=	$_POST['member_password'];
+	
 
-	$sql = "UPDATE `member` SET `password`='$password', `name`='$name',
-	`phone`='$phone', `address`='$address', `email`='$email' WHERE `member`.`id`=$id";
+	$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
 
 
 	if(mysqli_query($conn,$sql)){

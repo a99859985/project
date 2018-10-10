@@ -16,20 +16,24 @@
 		
 <?php 
 
-	if(@$_POST['member_account']){//防止重複
-		$member_account  = @$_POST['member_account'];
+	if(@$_POST['member_username']){//防止重複
+		$member_username  = @$_POST['member_username'];
 		$member_password = @$_POST['member_password'];
-		setcookie("member_account",$member_account,time()+3600);
+		setcookie("member_username",$member_username,time()+3600);
 		setcookie("member_password",$member_password,time()+3600);
 		header('Location: index.php');
 	}
 	else{
-		$member_account  = @$_COOKIE["member_account"];
+		$member_username  = @$_COOKIE["member_username"];
 		$member_password = @$_COOKIE["member_password"];
 	}
 
+
+	$member_username  = @$_COOKIE["member_username"];
+	$member_password = @$_COOKIE["member_password"];
+
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -55,10 +59,10 @@
 	$name	= NULL;
 
 	while($row = mysqli_fetch_row($result)){
-		if($member_account==$row[1] && $member_password==$row[2] && $row[8]!=1 ){
+		
+		if($member_username==$row[1] && $member_password==$row[2] && $row[5]!=1 ){
 			$id   = $row[0];
-			$name = $row[3];
-			$sex  = $row[4];
+			$name = $row[1];
 			break;
 		}
 	}
@@ -66,12 +70,7 @@
 	if($id){//登入成功
 		echo "<tr><td><font size=5 color=red>歡迎!</font>&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo "<font size=5>$name</font>&nbsp;&nbsp;&nbsp;&nbsp;";
-		if($sex=="男"){
-			echo "<font size=5>先生</font></td></tr>";
-		}
-		else{
-			echo "<font size=5>小姐</font></td></tr>";
-		}
+		
 		echo "<tr><td><center><a href=logout.php>登出</center></font></td></tr>";
 		echo "<form name=MyForm method=post action=modify/index.php><input type=hidden name=id value=$id>";
 		echo "<tr><td><LI><font size=5><a href='#' onclick=Modify()>修改會員資料</a></font></LI></td></tr></form>";
@@ -82,9 +81,9 @@
 
 	}
 	else{
-		if(@$_COOKIE["member_account"]){
+		if(@$_COOKIE["member_username"]){
 			echo "<script>var msg = '登入失敗';window.alert(msg);</script>";
-			setcookie("member_account","",time()-3600);
+			setcookie("member_username","",time()-3600);
 			setcookie("member_password","",time()-3600);
 			echo "<meta http-equiv=refresh content=0.1>";
 		}

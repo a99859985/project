@@ -13,7 +13,7 @@
 <?php
 
 	$db_server	=	"localhost";
-	$db_name	=	"pizza";
+	$db_name	=	"project";
 	$db_user	=	"Ben";
 	$db_passwd	=	"99859985";
 
@@ -32,26 +32,28 @@
 		die("無法使用資料庫<br>");
 	}
 
-	$account	=	$_POST['account'];
-	$password	=	$_POST['password'];
-	$name		=	$_POST['name'];
-	$sex		=	$_POST['sex'];
-	$phone		=	$_POST['phone'];
-	$address	=	$_POST['address'];
-	$email		=	@$_POST['email'];
+	$member_username	=	$_POST['account'];
+	$member_password	=	$_POST['password'];
+	//$member_point	    =	$_POST['member_point'];
+	//$member_money	    =	$_POST['member_money'];
+	//$name		=	$_POST['name'];
+	//$sex		=	$_POST['sex'];
+	//$phone	=	$_POST['phone'];
+	//$address	=	$_POST['address'];
+	//$email	=	@$_POST['email'];
 
 	$sql = "Select * From member";
 	$result = mysqli_query($conn,$sql);
 	while($row = mysqli_fetch_row($result)){
-		if($row[1] == $account){
+		if($row[1] == $member_username){
 			die("帳號已使用<br>");
 		}
 	}
 
 	mysqli_query($conn,"SET NAMES UTF8");
 
-	$adduser = "INSERT INTO `member` (`id`, `account`, `password`, `name`, `sex`, `phone`, `address`, `email`, `del`)
-				VALUES (NULL,'$account','$password','$name','$sex','$phone','$address','$email',0)";
+	$adduser = "INSERT INTO `member` (`member_id`, `member_username`, `member_password`,`member_point`,`member_money`, `member_disable`)
+				VALUES (NULL,'$member_username','$member_password',0,0,0)";
 
 	if(mysqli_query($conn,$adduser)){
 		echo "會員註冊成功<br>";

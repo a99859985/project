@@ -13,11 +13,11 @@
 <?php 
 	
 	if(@$_POST['control_account']){
-		$control_account  = @$_POST['control_account'];
-		$control_password = @$_POST['control_password'];
-		setcookie("control_account",$control_account,time()+3600);
-		setcookie("control_password",$control_password,time()+3600);
-		header('Location: index.php');
+        $control_account  = @$_POST['control_account'];
+        $control_password = @$_POST['control_password'];
+        setcookie("control_account",$control_account,time()+3600);
+        setcookie("control_password",$control_password,time()+3600);
+        header('Location: index.php');
 	}
 	else{
 		$control_account  = @$_COOKIE["control_account"];
@@ -45,9 +45,9 @@
  ?>
 <hr>
 	<center><table>
-		<tr><td><center>彭稟皓 (Ping-Hao Peng)</center></td></tr>
+		<tr><td><center>專題成員:  U0424012 彭稟皓 、 U0424011 彭稟皓 、U0424041 徐代晏 、U0424043 徐宏昌 </center></td></tr>
+		<tr><td><center>指導教授:  江緣貴 教授</center></td></tr>
 		<tr><td><center>國立聯合大學 資訊工程學系, Computer Science and Information Engineering, National United University</center></td></tr>
-		<tr><td><center>Email：<a href="mailto:U0424012@smail.nuu.edu.tw">U0424012@smail.nuu.edu.tw</center></a></td></tr>
 	</table></center>
 </body>
 </html>

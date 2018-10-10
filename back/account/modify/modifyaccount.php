@@ -23,7 +23,7 @@
 	}
 	
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -43,16 +43,14 @@
 
 	mysqli_query($conn,"SET NAMES UTF8");
 	
-	$id			=	$_POST['id'];
-	$password	=	$_POST['password'];
-	$name		=	$_POST['name'];
-	$phone		=	$_POST['phone'];
-	$address	= 	$_POST['address'];
-	$email		=	$_POST['email'];
-	$status		=	$_POST['status'];
+	$member_id			=	$_POST['id'];
+	$member_password	=	$_POST['password'];
+	$member_point		=	$_POST['point'];
+	$member_money		=	$_POST['money'];
+	$member_disable		=	$_POST['disable'];
 
-	$sql = "UPDATE `member` SET `password`='$password', `name`='$name', `phone`='$phone'
-	, `address`='$address', `email`='$email', `status`='$status' WHERE `member`.`id`=$id";
+	$sql = "UPDATE `member` SET `member_password`='$member_password', `member_point`='$member_point', `member_money`='$member_money'
+	, `member_disable`='$member_disable' WHERE `member`.`member_id`=$member_id";
 
 
 	if(mysqli_query($conn,$sql)){

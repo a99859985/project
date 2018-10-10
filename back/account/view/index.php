@@ -23,7 +23,7 @@
 	}
 
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -46,25 +46,18 @@
 	$sql = "Select * From member";
 	$result = mysqli_query($conn,$sql);
 
-	$account	= @$_POST['account'];
-	$password	= @$_POST['password'];
-	$name		= @$_POST['name'];
-	$sex		= @$_POST['sex'];
-	$phone		= @$_POST['phone'];
-	$address	= @$_POST['address'];
-	$email		= @$_POST['email'];
+	$member_username	= @$_POST['account'];
+	$member_password	= @$_POST['password'];
+	$member_money		= @$_POST['money'];
+	$member_point		= @$_POST['point'];
+	
 	
 	echo "<form name=form method=post action=>";
 	echo "<font size=4>按條件搜尋: </font><br>";
-	echo "<font size=3>帳號: </font><input type=text		name=account	value='$account'	maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<font size=3>密碼: </font><input type=password	name=password	value='$password'	maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<font size=3>姓名: </font><input type=text		name=name		value='$name'		maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<font size=3>姓別:</font>";
-	echo "<input type=radio name=sex value=男 ><font size=3>男</font>";
-	echo "<input type=radio	name=sex value=女 ><font size=3>女</font>&nbsp;&nbsp;&nbsp;&nbsp;<br>";
-	echo "<font size=3>電話: </font><input type=text		name=phone		value='$phone'		maxlength=10  >&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<font size=3>地址: </font><input type=text		name=address	value='$address'	maxlength=100 >&nbsp;&nbsp;&nbsp;&nbsp;";
-	echo "<font size=3>信箱: </font><input type=text		name=email		value='$email'		maxlength=50  ><br>";
+	echo "<font size=3>帳號: </font><input type=text		 name=account	value='$member_username'	maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<font size=3>密碼: </font><input type=password	 name=password	value='$member_password'	maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<font size=3>現金: </font><input type=text		 name=money		value='$member_money'		maxlength=30  >&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<font size=3>點數: </font><input type=text		 name=point		value='$member_point'		maxlength=10  >&nbsp;&nbsp;&nbsp;&nbsp;";
 	echo "<button name=submit type=submit />送出</button>";
 	echo "</form>";
 
@@ -73,32 +66,23 @@
 	echo "<td><center><font size=5>ID	</font></center></td>";
 	echo "<td><center><font size=5>帳號	</font></center></td>";
 	echo "<td><center><font size=5>密碼	</font></center></td>";
-	echo "<td><center><font size=5>姓名	</font></center></td>";
-	echo "<td><center><font size=5>性別	</font></center></td>";
-	echo "<td><center><font size=5>電話	</font></center></td>";
-	echo "<td><center><font size=5>地址	</font></center></td>";
-	echo "<td><center><font size=5>email</font></center></td>";
+	echo "<td><center><font size=5>現金	</font></center></td>";
+	echo "<td><center><font size=5>點數	</font></center></td>";
 	echo "<td><center><font size=5>是否停用</font></center></td>";
 	echo "</tr>";
 
 	while($row = mysqli_fetch_row($result)){
-		if( ($account	== NULL || ($account	!= NULL && strpos($row[1],$account)	!== false)) &&
-			($password	== NULL || ($password	!= NULL && strpos($row[2],$password)!== false)) &&
-			($name		== NULL || ($name		!= NULL && strpos($row[3],$name)	!== false)) &&
-			($sex		== NULL || ($sex		!= NULL && strpos($row[4],$sex)		!== false)) &&
-			($phone		== NULL || ($phone		!= NULL && strpos($row[5],$phone)	!== false)) &&
-			($address	== NULL || ($address	!= NULL && strpos($row[6],$address)	!== false)) &&
-			($email		== NULL || ($email		!= NULL && strpos($row[7],$email)	!== false)) ){
+		if( ($member_username	== NULL || ($member_username	!= NULL && strpos($row[1],$member_username)	!== false)) &&
+			($member_password	== NULL || ($member_password	!= NULL && strpos($row[2],$member_password)!== false)) &&
+			($member_money	== NULL || ($member_money	!= NULL && strpos($row[3],$member_money)	!== false)) &&
+			($member_point		== NULL || ($member_point	!= NULL && strpos($row[4],$member_point)		!== false)) ){
 			echo "<tr>";
 			echo "<td><font size=5>".$row[0]."</font></td>";
 			echo "<td><font size=5>".$row[1]."</font></td>";
 			echo "<td><font size=5>".$row[2]."</font></td>";
 			echo "<td><font size=5>".$row[3]."</font></td>";
 			echo "<td><font size=5>".$row[4]."</font></td>";
-			echo "<td><font size=5>".$row[5]."</font></td>";
-			echo "<td><font size=5>".$row[6]."</font></td>";
-			echo "<td><font size=5>".$row[7]."</font></td>";
-			if($row[8]==1){
+			if($row[5]==1){
 				echo "<td><font size=5 color=red>已停用</font></td>";
 			}
 			else{

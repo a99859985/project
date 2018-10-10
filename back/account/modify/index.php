@@ -23,7 +23,7 @@
 	}
 
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -52,11 +52,11 @@
 	echo "<td><center><font size=5>ID	</font></center></td>";
 	echo "<td><center><font size=5>帳號	</font></center></td>";
 	echo "<td><center><font size=5>密碼	</font></center></td>";
-	echo "<td><center><font size=5>姓名	</font></center></td>";
-	echo "<td><center><font size=5>性別	</font></center></td>";
-	echo "<td><center><font size=5>電話	</font></center></td>";
-	echo "<td><center><font size=5>地址	</font></center></td>";
-	echo "<td><center><font size=5>email</font></center></td>";
+	echo "<td><center><font size=5>現金	</font></center></td>";
+	echo "<td><center><font size=5>點數	</font></center></td>";
+	//echo "<td><center><font size=5>電話	</font></center></td>";
+	//echo "<td><center><font size=5>地址	</font></center></td>";
+	//echo "<td><center><font size=5>email</font></center></td>";
 	echo "<td><center><font size=5>是否停用</font></center></td>";
 	echo "</tr>";
 
@@ -69,10 +69,9 @@
 		echo "<td><font size=5>".$row[2]."</font></td>";
 		echo "<td><font size=5>".$row[3]."</font></td>";
 		echo "<td><font size=5>".$row[4]."</font></td>";
-		echo "<td><font size=5>".$row[5]."</font></td>";
-		echo "<td><font size=5>".$row[6]."</font></td>";
-		echo "<td><font size=5>".$row[7]."</font></td>";
-		if($row[8]==1){
+		
+		
+		if($row[5]==1){
 			echo "<td><font size=5 color=red>已停用</font></td>";
 		}
 		else{
