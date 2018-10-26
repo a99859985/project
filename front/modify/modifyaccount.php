@@ -45,18 +45,23 @@
 	$member_id			=	$_POST['id'];
 	$member_username	=	$_POST['member_username'];
 	$member_password	=	$_POST['member_password'];
+	$member_passwordconfirm	=	$_POST['member_passwordconfirm'];
 	
+	if ($member_password==$member_passwordconfirm){
+		$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
 
-	$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
-
-	
-
-	if(mysqli_query($conn,$sql)){
-		echo "修改會員資料成功<br>";
-		echo "<button onclick=history.go(-2);>回上一頁</button>";
+		if(mysqli_query($conn,$sql)){
+			echo "修改會員資料成功<br>";
+			echo "<button onclick=history.go(-2);>回上一頁</button>";
+		}
+		else{
+			echo "修改會員資料失敗<br>";
+			echo "<button onclick=history.go(-2);>回上一頁</button>";
+			die();
+		}
 	}
 	else{
-		echo "修改會員資料失敗<br>";
+		echo "密碼確認錯誤<br>";
 		echo "<button onclick=history.go(-2);>回上一頁</button>";
 		die();
 	}

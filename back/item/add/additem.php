@@ -23,7 +23,7 @@
 	}
 
 	$db_server	=	"localhost";
-	$db_name	=	"pizza";
+	$db_name	=	"project";
 	$db_user	=	"Ben";
 	$db_passwd	=	"99859985";
 

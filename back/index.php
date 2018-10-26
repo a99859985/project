@@ -40,8 +40,6 @@
 	echo "</UL>";
 	echo "</table></center>";
 	
-
-
  ?>
 <hr>
 	<center><table>

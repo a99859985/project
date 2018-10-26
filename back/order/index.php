@@ -23,7 +23,7 @@
 	}
 
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -55,16 +55,8 @@
 	echo "<td><center><font size=5>商品編號	</font></center></td>";
 	echo "<td><center><font size=5>商品名稱	</font></center></td>";
 	echo "<td><center><font size=5>商品單價	</font></center></td>";
-	echo "<td><center><font size=5>餅皮種類	</font></center></td>";
-	echo "<td><center><font size=5>起司加量	</font></center></td>";
-	echo "<td><center><font size=5>訂購數量	</font></center></td>";
-	echo "<td><center><font size=5>小計		</font></center></td>";
-	echo "<td><center><font size=5>總金額	</font></center></td>";
-	echo "<td><center><font size=5>備註		</font></center></td>";
-	echo "<td><center><font size=5>送貨方式	</font></center></td>";
+	echo "<td><center><font size=5>購買方式		</font></center></td>";
 	echo "<td><center><font size=5>訂購時間	</font></center></td>";
-	echo "<td><center><font size=5>訂單狀況	</font></center></td>";
-	echo "<td><center><font size=5>修改	</font></center></td>";
 	echo "</tr>";
 
 	$temp = 0;
@@ -73,7 +65,7 @@
 	while($row = mysqli_fetch_row($result)){
 		echo "<tr>";
 		if($temp!=$row[0]){
-			if($temp+1 == $row[0] && $row[7] != $row[8]){
+			if($temp+1 == $row[0] ){
 				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[0]."</font></center></td>";
 				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[1]."</font></center></td>";
 				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[2]."</font></center></td>";
@@ -99,95 +91,13 @@
 		echo "<td><center><font size=5>".$row[3]."</font></center></td>";
 		echo "<td><center><font size=5>".$row[4]."</font></center></td>";
 		echo "<td><center><font size=5>".$row[5]."</font></center></td>";
-		echo "<td><center><font size=5>";
-		if($row[11]==1){
-			echo "薄脆餅皮";
-		}
-		elseif($row[11]==2){
-			echo "芝心餅皮(+80)";
+		if($row[6]=="0"){
+			echo "<td><center><font size=5>現金</font></center></td>";
 		}
 		else{
-			echo "鬆厚餅皮";
+			echo "<td><center><font size=5>點數</font></center></td>";
 		}
-		echo "</font></center></td>";
-		echo "<td><center><font size=5>";
-		if($row[12]==1){
-			echo "起司加量(+80)";
-		}
-		else{
-			echo "無加量";
-		}
-		echo "<td><center><font size=5>".$row[6]."</font></center></td>";
 		echo "<td><center><font size=5>".$row[7]."</font></center></td>";
-		if($temp!=$row[0]){
-			if($row[7] != $row[8]){
-				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[8]."</font></center></td>";
-				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[13]."</font></center></td>";
-				if($row[14]==0){
-					echo "<td style=border-bottom-style:NONE><center><font size=5>外帶</font></center></td>";
-				}
-				else{
-					echo "<td style=border-bottom-style:NONE><center><font size=5>外送</font></center></td>";
-				}
-				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[9]."</font></center></td>";
-				if($row[10]==0){
-					echo "<td style=border-bottom-style:NONE><center><font size=5>處理中</font></center></td>";
-				}
-				elseif($row[10]==1){
-					echo "<td style=border-bottom-style:NONE><center><font size=5>烘烤中</font></center></td>";
-				}
-				elseif($row[10]==2){
-					echo "<td style=border-bottom-style:NONE><center><font size=5>已完成</font></center></td>";
-				}
-				else{
-					echo "<td style=border-bottom-style:NONE><center><font size=5>外送中</font></center></td>";
-				}
-				echo "<td style=border-bottom-style:NONE><center><button name=id type = submit value=$row[0]>修改</button></center></td>";
-			}
-			else{
-				echo "<td><center><font size=5>".$row[8]."</font></center></td>";
-				echo "<td><center><font size=5>".$row[13]."</font></center></td>";
-				if($row[14]==0){
-					echo "<td><center><font size=5>外帶</font></center></td>";
-				}
-				else{
-					echo "<td><center><font size=5>外送</font></center></td>";
-				}
-				echo "<td><center><font size=5>".$row[9]."</font></center></td>";
-				if($row[10]==0){
-					echo "<td><center><font size=5>處理中</font></center></td>";
-				}
-				elseif($row[10]==1){
-					echo "<td><center><font size=5>烘烤中</font></center></td>";
-				}
-				elseif($row[10]==2){
-					echo "<td><center><font size=5>已完成</font></center></td>";
-				}
-				else{
-					echo "<td><center><font size=5>外送中</font></center></td>";
-				}
-				echo "<td><center><button name=id type = submit value=$row[0]>修改</button></center></td>";
-			}
-		}
-		else{
-			if($temp == $row[0]){
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-			}
-			else{
-				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
-			}
-		}
-
 		echo "</tr>";
 		$temp = $row[0];
 	}

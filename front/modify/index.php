@@ -54,10 +54,9 @@
 	echo "<center>";
 	echo "<table>";
 	echo "<input type=hidden name=id value=$id>";
-	echo "<tr><LI><font size=3>帳號:</font><input type=text		name=member_username	value=$row[1]     ></LI></tr><br>";
+	echo "<tr><LI><font size=3>帳號:</font><input type=text		name=member_username	value=$row[1]   disabled=disabled  ></LI></tr><br>";
 	echo "<tr><LI><font size=3>密碼:</font><input type=text	name=member_password	 value=$row[2]     maxlength=30 required=required></LI></tr><br>";
-	//echo "<tr><LI><font size=3>姓名:</font><input type=text		name=name		value=$row[3] maxlength=30 required=required></LI></tr><br>";
-	
+	echo "<tr><LI><font size=3>密碼確認:</font><input type=text	name=member_passwordconfirm	 value=''   maxlength=30 required=required></LI></tr><br>";
 	echo "<tr><button name=submit type=submit />送出</button></tr>";
 	echo "</table>";
 	echo "</center>";
