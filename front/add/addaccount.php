@@ -32,45 +32,56 @@
 		die("無法使用資料庫<br>");
 	}
 
-	$member_username	=	$_POST['account'];
-	$member_password	=	$_POST['password'];
-	//$member_point	    =	$_POST['member_point'];
-	//$member_money	    =	$_POST['member_money'];
-	//$name		=	$_POST['name'];
-	//$sex		=	$_POST['sex'];
-	//$phone	=	$_POST['phone'];
-	//$address	=	$_POST['address'];
-	//$email	=	@$_POST['email'];
-
-	$sql = "Select * From member";
-	$result = mysqli_query($conn,$sql);
-	while($row = mysqli_fetch_row($result)){
-		if($row[1] == $member_username){
-			die("帳號已使用<br>");
-		}
-	}
+	$member_username	=	$_POST['member_username'];
+	$member_password	=	$_POST['member_password'];
+	$member_password_confirm	=	$_POST['password_confirm'];
 
 	mysqli_query($conn,"SET NAMES UTF8");
 
-	$adduser = "INSERT INTO `member` (`member_id`, `member_username`, `member_password`,`member_point`,`member_money`, `member_disable`)
-				VALUES (NULL,'$member_username','$member_password',0,0,0)";
+	if($member_password==$member_password_confirm){
+		$adduser = "INSERT INTO `member` (`member_id`, `member_username`, `member_password`,`member_point`,`member_money`, `member_disable`)
+					VALUES (NULL,'$member_username','$member_password',0,0,0)";
 
-	if(mysqli_query($conn,$adduser)){
-		echo "會員註冊成功<br>";
-		echo '<button onclick=goBack()>回上一頁</button>';
+		if(strlen($member_password)>=6){
+			$sql = "Select * From member";
+			$result = mysqli_query($conn,$sql);
+			while($row = mysqli_fetch_row($result)){
+				if($row[1] == $member_username){
+		        	$used = 1;
+				}
+				else{
+					$used = 0;
+				}
+			}
+			if($used==1){
+				echo "<script>var msg = '帳號已使用';window.alert(msg);</script>";
+		        echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+			}
+			else{
+				if(mysqli_query($conn,$adduser)){
+					echo "<script>var msg = '會員註冊成功';window.alert(msg);</script>";
+				    echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+				}
+				else{
+					echo "<script>var msg = '會員註冊失敗';window.alert(msg);</script>";
+				    echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+				}
+			}
+		}
+		else{
+			echo "<script>var msg = '密碼最少需要6個字';window.alert(msg);</script>";
+	        echo "<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+		}
 	}
 	else{
-		die("會員註冊失敗<br>");
+		echo "<script>var msg = '確認密碼錯誤';window.alert(msg);</script>";
+        echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
 	}
+
+	
 
 	mysqli_close($conn);
 
 ?>
 </body>
 </html>
-
-<script>
-function goBack() {
-    window.history.back();
-}
-</script>

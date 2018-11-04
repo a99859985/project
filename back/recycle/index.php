@@ -8,7 +8,7 @@
 	</style>
 </head>
 <body background="/bg.png">
-<font size="6"><center>修改訂單</center></font>
+<font size="6"><center>回收紀錄</center></font>
 <hr>
 <?php
 
@@ -43,19 +43,19 @@
 
 	mysqli_query($conn,"SET NAMES UTF8");
 
-	$sql = "Select * From order_form";
+	$sql = "Select * From recycle_form";
 	$result = mysqli_query($conn,$sql);
 
 
 	echo "<table border=2>";
 	echo "<tr>";
-	echo "<td><center><font size=5>訂單編號	</font></center></td>";
+	echo "<td><center><font size=5>回收編號	</font></center></td>";
 	echo "<td><center><font size=5>會員編號	</font></center></td>";
-	echo "<td><center><font size=5>會員名稱	</font></center></td>";
-	echo "<td><center><font size=5>商品編號	</font></center></td>";
-	echo "<td><center><font size=5>商品名稱	</font></center></td>";
-	echo "<td><center><font size=5>商品單價	</font></center></td>";
-	echo "<td><center><font size=5>付款方式	</font></center></td>";
+	//echo "<td><center><font size=5>會員名稱	</font></center></td>";
+	echo "<td><center><font size=5>回收種類	</font></center></td>";
+	//echo "<td><center><font size=5>商品名稱	</font></center></td>";
+	//echo "<td><center><font size=5>商品單價	</font></center></td>";
+	//echo "<td><center><font size=5>付款方式	</font></center></td>";
 	echo "<td><center><font size=5>訂購時間	</font></center></td>";
 	
 	echo "</tr>";
@@ -66,41 +66,42 @@
 	while($row = mysqli_fetch_row($result)){
 		echo "<tr>";
 		if($temp!=$row[0]){
-			if($temp+1 == $row[0] && $row[6] != $row[7]){
+			if($temp+1 == $row[0] && $row[2] != $row[3]){
 				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[0]."</font></center></td>";
 				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[1]."</font></center></td>";
-				echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[2]."</font></center></td>";
+				//echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[2]."</font></center></td>";
 			}
 			else{
 				echo "<td><center><font size=5>".$row[0]."</font></center></td>";
 				echo "<td><center><font size=5>".$row[1]."</font></center></td>";
-				echo "<td><center><font size=5>".$row[2]."</font></center></td>";
+				//echo "<td><center><font size=5>".$row[2]."</font></center></td>";
 			}
 		}
 		else{
 			if($temp == $row[0]){
 				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
 				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-				echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
+				//echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
 			}
 			else{
 				echo "<td style=border-top-style:NONE></td>";
 				echo "<td style=border-top-style:NONE></td>";
-				echo "<td style=border-top-style:NONE></td>";
+				//echo "<td style=border-top-style:NONE></td>";
 			}
 		}
+		echo "<td><center><font size=5>".$row[2]."</font></center></td>";
 		echo "<td><center><font size=5>".$row[3]."</font></center></td>";
-		echo "<td><center><font size=5>".$row[4]."</font></center></td>";
-		echo "<td><center><font size=5>".$row[5]."</font></center></td>";
+		//echo "<td><center><font size=5>".$row[5]."</font></center></td>";
+		//echo "<td><center><font size=5>";
 		
-		if($row[6]=="0"){
+		/*if($row[6]==0){
 			echo "<td><center><font size=5>現金</font></center></td>";
 		}
-		else{
+		elseif ($row[6]==1) {
 			echo "<td><center><font size=5>點數</font></center></td>";
-		}
+		}*/
 
-		echo "<td><center><font size=5>".$row[7]."</font></center></td>";
+		//echo "<td><center><font size=5>".$row[7]."</font></center></td>";
 		
 	
 

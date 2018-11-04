@@ -20,9 +20,44 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal">I recycle system</h5>
       <nav class="my-2 my-md-0 mr-md-3">
-        <?php        
+    <?php 
+      $member_username  = @$_COOKIE["member_username"];
+			$member_password = @$_COOKIE["member_password"];
+
+			
+
+			$db_server = "localhost";
+			$db_name   = "project";
+			$db_user   = "Ben";
+			$db_passwd = "99859985";
+
+			if(@$conn=mysqli_connect($db_server,$db_user,$db_passwd)){
+				#echo "資料庫連線成功<br>";
+			}
+			else{
+				die("資料庫連線失敗<br>");
+			}
+
+			if(@mysqli_select_db($conn,$db_name)){
+				#echo "資料庫使用成功<br>";
+			}
+			else{
+				die("無法使用資料庫<br>");
+			}
+
+			mysqli_query($conn,"SET NAMES UTF8");
+
+			$sql = "Select * From recycle_form";
+			$result = mysqli_query($conn,$sql);
+
+			$id = $_POST['id'];       
           echo "<a  href='../../../index.php' class=p-2 text-dark style='color: #000000'>首頁</a>";
-          echo "<a class=p-2 text-dark href='../modify/membercenter.php'  style='color:#000000'>會員中心</a>";
+          if($id==0){
+          	echo "<a class=p-2 text-dark href='../../check.php'  style='color:#000000'>會員中心</a>";
+          }
+          else{
+          	echo "<a class=p-2 text-dark href='../modify/membercenter.php'  style='color:#000000'>會員中心</a>";
+      	  }
           echo "<a class=p-2 text-dark href=../item/index.php style='color: #000000'>購物中心</a>";
           echo "<a class=p-2 text-dark href='../recycle/checkrecycle.php' style='color: #000000'>回收中心</a>";
         ?>
@@ -32,59 +67,21 @@
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-3">查詢訂單</h1>
+      <h1 class="display-3">回收紀錄</h1>
       <p class="lead">I recycle system.</p>
     </div>
 
     <div class="container" >
+      
+
 <?php
 
-	$member_username  = @$_COOKIE["member_username"];
-	$member_password = @$_COOKIE["member_password"];
-
-	if(!$member_username){
-		die("權限錯誤<br>");
-	}
-	else{
-		
-	}
-
-	$db_server = "localhost";
-	$db_name   = "project";
-	$db_user   = "Ben";
-	$db_passwd = "99859985";
-
-	if(@$conn=mysqli_connect($db_server,$db_user,$db_passwd)){
-		#echo "資料庫連線成功<br>";
-	}
-	else{
-		die("資料庫連線失敗<br>");
-	}
-
-	if(@mysqli_select_db($conn,$db_name)){
-		#echo "資料庫使用成功<br>";
-	}
-	else{
-		die("無法使用資料庫<br>");
-	}
-
-	mysqli_query($conn,"SET NAMES UTF8");
-
-	$sql = "Select * From order_form";
-	$result = mysqli_query($conn,$sql);
-
-	$id = $_POST['id'];
-
-	echo "<center>";
+	echo "<center>"; 
 	echo "<table border=3>";
 	echo "<tr>";
-	echo "<td><center><font size=5>訂單編號	</font></center></td>";
+	echo "<td><center><font size=5>回收編號	</font></center></td>";
 	echo "<td><center><font size=5>會員編號	</font></center></td>";
-	echo "<td><center><font size=5>會員名稱	</font></center></td>";
-	echo "<td><center><font size=5>商品編號	</font></center></td>";
-	echo "<td><center><font size=5>商品名稱	</font></center></td>";
-	echo "<td><center><font size=5>商品單價	</font></center></td>";
-	echo "<td><center><font size=5>付款方式	</font></center></td>";
+	echo "<td><center><font size=5>回收種類	</font></center></td>";
 	echo "<td><center><font size=5>訂購時間	</font></center></td>";
 
 	
@@ -93,55 +90,63 @@
 
 	$temp = 0;
 
-	echo "<form name=form method=post action=modifyid.php>";
 	while($row = mysqli_fetch_row($result)){
-
 		if($id==$row[1]){
 			echo "<tr>";
 			if($temp!=$row[0]){
-				if($row[6] != $row[7]){
+				if($row[2] != $row[3]){
 					echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[0]."</font></center></td>";
 					echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[1]."</font></center></td>";
-					echo "<td style=border-bottom-style:NONE><center><font size=5>".$row[2]."</font></center></td>";
+					
 				}
 				else{
 					echo "<td><center><font size=5>".$row[0]."</font></center></td>";
 					echo "<td><center><font size=5>".$row[1]."</font></center></td>";
-					echo "<td><center><font size=5>".$row[2]."</font></center></td>";
+					
 				}
 			}
 			else{
 				if($temp == $row[0]){
 					echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
 					echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
-					echo "<td style=border-top-style:NONE;border-bottom-style:NONE></td>";
+					
 				}
 				else{
 					echo "<td style=border-top-style:NONE></td>";
 					echo "<td style=border-top-style:NONE></td>";
-					echo "<td style=border-top-style:NONE></td>";
+					
 				}
 			}
-			echo "<td><center><font size=5>".$row[3]."</font></center></td>";
-			echo "<td><center><font size=5>".$row[4]."</font></center></td>";
-			echo "<td><center><font size=5>".$row[5]."</font></center></td>";
-			//echo "<td><center><font size=5>";
+      if($row[2]=='0'){
+        echo "<td><center><font size=5>ERROR</font></center></td>";
+      }
+      else if ($row[2]=='1'){
+			 echo "<td><center><font size=5>塑膠</font></center></td>";
+      }
+      else if ($row[2]=='2'){
+       echo "<td><center><font size=5>玻璃</font></center></td>";
+      }
+      else if ($row[2]=='3'){
+       echo "<td><center><font size=5>紙類</font></center></td>";
+      }
+      else if ($row[2]=='4'){
+       echo "<td><center><font size=5>金屬</font></center></td>";
+      }
+      else if ($row[2]=='5'){
+       echo "<td><center><font size=5>fail</font></center></td>";
+      }
+      
+			
 			
 			echo "</font></center></td>";
-			if($row[6]==0){
-				echo "<td><center><font size=5>現金</font></center></td>";
-			}
-			elseif ($row[6]==1) {
-				echo "<td><center><font size=5>點數</font></center></td>";
-			}
-			echo "<td><center><font size=5>".$row[7]."</font></center></td>";
+			
+			echo "<td><center><font size=5>".$row[3]."</font></center></td>";
 			echo "</tr>";
 			$temp = $row[0];
 		}
 	}
 	echo "</table>";
-	echo "</center>";
-	echo "</form>";
+  echo "</center>";
 	mysqli_close($conn);
 ?>
       <footer class="pt-4 my-md-5 pt-md-5 border-top">

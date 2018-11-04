@@ -16,17 +16,18 @@
     <link href="pricing.css" rel="stylesheet">
   </head>
 
-<body style="background-image: url('bg.png'); ">
-<hr>
-<div class="view" style="  background-size: cover; background-position: center center; ">
+
+  <body style="background-image: url('bg.png'); ">
+
+  <div class="view" style="  background-size: cover; background-position: center center; ">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal">I recycle system</h5>
       <nav class="my-2 my-md-0 mr-md-3">
         <?php
           echo "<a  href='index.php' class=p-2 text-dark style='color: #000000'>首頁</a>";
-          echo "<a class=p-2 text-dark href=front/index.php style='color: #000000'>會員中心</a>";
+          echo "<a class=p-2 text-dark href=check.php style='color: #000000'>會員中心</a>";
           echo "<a class=p-2 text-dark href=front/item/index.php style='color: #000000'>購物中心</a>";
-          echo "<a class=p-2 text-dark href=../recycle/checkrecycle.php style='color: #000000'>回收中心</a>";
+          echo "<a class=p-2 text-dark href=front/recycle/checkrecycle.php style='color: #000000'>回收中心</a>";
         ?>
       </nav>
     </div>
@@ -35,19 +36,18 @@
       <h3 class="display-3">會員註冊</h3>
     </div>
 
-	<div class="container" >
+    <div class="container" >
       <form name="form" method="post" action="front/add/addaccount.php">
       <div class="card-deck mb-3 text-center">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="text" name="member_username"  class="form-control" maxlength="30" placeholder="帳號" required autofocus required="required">
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" name="member_password"  class="form-control" maxlength="30" placeholder="密碼" required="required">
+      <input type="password" name="password_confirm"  class="form-control" maxlength="30" placeholder="再次確認密碼" required="required">
       
-      <button class="btn btn-lg btn-primary btn-block" name="submit" type="submit">Sign in</button>
-      <a   class="p-2 text-dark" >沒有會員?</a>
+      <button class="btn btn-lg btn-primary btn-block" name="submit" type="submit">註冊</button>
 
-      <a   href='front/add/index.html' class="p-2 text-dark" >註冊會員</a>
       </div>
       </form>
 

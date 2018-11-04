@@ -1,22 +1,61 @@
-<html>
-<head>
-	<title>確認訂單</title>
-	<meta name="Author" content="P.H.Peng">
-	<link rev="made" href="mailto:U0424012@smail.nuu.edu.tw">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
-	<style type="text/css">
-	</style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>智慧回收系統</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="pricing.css" rel="stylesheet">
 </head>
-<body background="/bg.png">
-<font size="6"><center>確認訂單</center></font>
-<hr>
+<body style="background-image: url('../../../bg.png'); ">
+
+<div class="view" style="  background-size: cover; background-position: center center; ">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-info border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">I recycle system</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+      	<?php        
+          $member_username  = @$_COOKIE["member_username"];
+          $member_password = @$_COOKIE["member_password"];
+
+          $db_server = "localhost";
+          $db_name   = "project";
+          $db_user   = "Ben";
+          $db_passwd = "99859985";
+          echo "<a  href='../../../index.php' class=p-2 text-dark style='color: #000000'>首頁</a>";
+          if($member_username){
+          echo "<a class=p-2 text-dark href='../modify/membercenter.php'  style='color:#000000'>會員中心</a>";
+          }
+          else{
+            echo "<a class=p-2 text-dark href='../../check.php'  style='color:#000000'>會員中心</a>";
+          }
+          echo "<a class=p-2 text-dark href=index.php style='color: #000000'>購物中心</a>";
+          echo "<a class=p-2 text-dark href='../recycle/checkrecycle.php' style='color: #000000'>回收中心</a>";
+        ?>
+      </nav>
+      
+
+    </div>
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-5">確認購買</h1>
+      <p class="lead">I recycle system.</p>
+    </div>    
+	<div class="container marketing">
 <?php
 
-	$member_account  = @$_COOKIE["member_account"];
+	$member_username  = @$_COOKIE["member_username"];
 	$member_password = @$_COOKIE["member_password"];
 
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -35,143 +74,142 @@
 	}
 
 	mysqli_query($conn,"SET NAMES UTF8");
-
-	$sql = "Select * From item";
-	$result = mysqli_query($conn,$sql);
-
-	$sql = "SELECT MAX(item_id) FROM item";//取得id
+	
+	$id		= $_POST['id'];
+	$buy = $_POST['buy'];
+	$sql = "SELECT * FROM member where member_id= $id";
 	$result = mysqli_query($conn,$sql);
 	$row = mysqli_fetch_row($result);
-	$amount = $row[0];
+       echo "<form name=form method=post action=order.php>";
+		echo "<input type=hidden name=id value=$id>";
+       echo"<div class=row>";
+          echo"<div class=col-lg-4>";
+            echo"<h2>你好，  $row[1] <br></h2>";
+            echo"<h2>你擁有<br>現金:&nbsp $row[3]  <br>點數: &nbsp $row[4]<br></h2>";
+          echo"</div>";
+       	$sql = "Select * From item";
+		$result = mysqli_query($conn,$sql);
 
-	for($i=1;$i<=$amount;$i++){
-		$buy = "buy_".$i;
-		if( $buy = @$_POST[$buy]){
-			${"buy_".$i} = $buy;
-		}
-		$kind = "kind_".$i;
-		if( $kind = @$_POST[$kind]){
-			${"kind_".$i} = $kind;
-		}
-		$cheese = "cheese_".$i;
-		if( $cheese = @$_POST[$cheese]){
-			${"cheese_".$i} = $cheese;
-		}
-	}
+		$sql = "SELECT MAX(item_id) FROM item where item_id=$buy";//取得id
+		$result = mysqli_query($conn,$sql);
+		$row = mysqli_fetch_row($result);
+		$amount = $row[0];
+		$sql = "Select * From item";
+		$result = mysqli_query($conn,$sql);
 
-	echo "<table border=1>";
-	echo "<tr>";
-	echo "<td><center><font size=5>編號	</font></center></td>";
-	echo "<td><center><font size=5>名稱	</font></center></td>";
-	echo "<td><center><font size=5>圖片	</font></center></td>";
-	echo "<td><center><font size=5>單價	</font></center></td>";
-	echo "<td><center><font size=5>餅皮	</font></center></td>";
-	echo "<td><center><font size=5>起司加量	</font></center></td>";
-	echo "<td><center><font size=5>數量	</font></center></td>";
-	echo "<td><center><font size=5>小計	</font></center></td>";
-	echo "</tr>";
-
-	$sql = "Select * From item";
-	$result = mysqli_query($conn,$sql);
-
-	$id		= $_POST['id'];
-	$total	= 0;
-	$amount = 0;
-
-	echo "<form name=form method=post action=order.php>";
-	echo "<input type=hidden name=id value=$id>";
-
-	while($row = mysqli_fetch_row($result)){
-		if( @${"buy_".$row[0]} ){
-			++$amount;
-			echo "<tr>";
-			echo "<td><center><font size=5>".$row[0]."</font></center></td>";
-			echo "<input type=hidden name=item_id_$amount value=$row[0]>";
-			echo "<td><center><font size=5>".$row[1]."</font></center></td>";
-			echo "<input type=hidden name=item_name_$amount value=$row[1]>";
-			if($row[4]){
-				$timestamp = time();
-				echo "<td><center><img src=/images/$row[4]?$timestamp height='100' width='100'>​</center></td>";
-			}
-			else{
-				echo"<td><center>本商品無圖片</center></td>";
-			}
-			echo "<td><center><font size=5>".$row[2]."</font></center></td>";
-			echo "<input type=hidden name=price_$amount value=$row[2]>";
-			echo "<td><center><font size=5>";
-			if(@${'kind_'.$row[0]}==1){
-				$kind = 1;
-				echo "薄脆餅皮";
-			}
-			elseif(@${'kind_'.$row[0]}==2){
-				$kind = 2;
-				echo "芝心餅皮<br>";
-				echo "+80";
-			}
-			else{
-				$kind = 0;
-				echo "鬆厚餅皮";
-			}
-			echo "</font></center></td>";
-			echo "<input type=hidden name=kind_$amount value=$kind>";
-			echo "<td><center><font size=5>";
-			if(@${'cheese_'.$row[0]}){
-				$cheese = 1;
-				echo "起司加量<br>";
-				echo "+80";
-			}
-			else{
-				$cheese = 0;
-				echo "無加量";
-			}
-			echo "</font></center></td>";
-			echo "<input type=hidden name=cheese_$amount value=$cheese>";
-			echo "<td><center><font size=5>".${'buy_'.$row[0]}."</font></center></td>";
-			echo "<input type=hidden name=quantity_$amount value=${'buy_'.$row[0]}>";
-			$subtotal = ${'buy_'.$row[0]}*$row[2];
-			if(@${'kind_'.$row[0]}==2){
-				$subtotal+=80*${'buy_'.$row[0]};
-			}
-			if(@${'cheese_'.$row[0]}){
-				$subtotal+=80*${'buy_'.$row[0]};
-			}
-			echo "<td><center><font size=5>".$subtotal."</font></center></td>";
-			echo "<input type=hidden name=subtotal_$amount value=$subtotal>";	
-			echo "</tr>";
-			$total += $subtotal;
-		}
-	}
-
-	echo "</table>";
-	echo "<font size=5>備註:</font><br>";
-	echo "<textarea  type=textarea   name=note  maxlength=200 rows=5 cols=30></textarea><br>";
-	echo "<input type=radio name=way value=0><font size=5>外帶</font>";
-	echo "<input type=radio name=way value=1><font size=5>外送</font><br>";
-	echo "<font size=6>總金額:".$total."</font>";
-	echo "<input type=hidden name=total value=$total>";
-	echo "<input type=hidden name=amount value=$amount>";
-
-	echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
-	echo "<button type=submit onclick=Check(event) style=font-size:20pt;width:150px;height:50px>確認購買</button>";
-	echo "</form>";
+		
+		$total	= 0;
+		$amount = 0;
 	
-	echo "<br><button onclick=history.go(-1);>回上一頁</button>";
+	while($row = mysqli_fetch_row($result)){
+		if($row[0]==$buy ){
+			++$amount;
+          echo"<div class=col-lg-4>";
+            if($row[4]){
+			$timestamp = time();
+        	echo"<img class=rounded-circle src=/images/$row[4]?$timestamp image width=140 height=140>";
+	    	}
+	    	else{
+			echo"<img class=rounded-circle src=../../noimg.jpg image width=140 height=140>";
+			}
+			
+            echo"<h2>$row[0]. $row[1]</h2>";
+            echo "<input type=hidden name=item_id_$amount value=$row[0]>";
+			echo "<input type=hidden name=item_name_$amount value=$row[1]>";
+            echo"<p>價格: $row[2]<br>介紹: $row[3]<br></p>";
+            echo "<input type=hidden name=price_$amount value=$row[2]>";
+            $ONE=1;
+			//echo "<p>數量: $ONE<br></p>";
+			echo "<input type=hidden name=quantity_$amount value=$ONE>";
+			$subtotal = 1*$row[2];
+			//echo "<p>小計: $subtotal<br></p>";
+			echo "<input type=hidden name=subtotal_$amount value=$subtotal>";
+            $total += 1*$subtotal;
+          echo"</div>";
+          }
+    }
+    	echo"<div class=col-lg-4>";
+    	echo "<font size=5>付款方式:</font><br>";
+		echo "<input type=radio name=way value=0 checked='true' ><font size=5>現金</font>";
+		echo "<input type=radio name=way value=1  ><font size=5>點數</font><br>";
+		echo "<font size=6>總金額:".$total."</font>";
+		echo "<form name=form method=post action=order.php>";
+		echo "<input type=hidden name=id value=$id>";
+		echo "<input type=hidden name=total value=$total>";
+		echo "<input type=hidden name=amount value=$amount>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo "<button type=submit onclick=Check(event) style=font-size:20pt;width:150px;height:50px>確認購買</button>";
+		echo "</form>";
+    	echo"</div>";
+    echo"</div>";
 	mysqli_close($conn);
-
 ?>
-<hr>
-	<center><table>
-		<tr><td><center>彭稟皓 (Ping-Hao Peng)</center></td></tr>
-		<tr><td><center>國立聯合大學 資訊工程學系, Computer Science and Information Engineering, National United University</center></td></tr>
-		<tr><td><center>Email：<a href="mailto:U0424012@smail.nuu.edu.tw">U0424012@smail.nuu.edu.tw</center></a></td></tr>
-	</table></center>
-</body>
+
+
+
+
+
+
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="../../assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">&copy; 2018</small>
+          </div>
+          <div class="col-6 col-md">
+            <h3>專題成員</h3>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" >U0424011 林豐禾</a></li>
+              <li><a class="text-muted" >U0424012 彭稟皓</a></li>
+              <li><a class="text-muted" >U0424041 徐代晏</a></li>
+              <li><a class="text-muted" >U0424043 徐宏昌</a></li>
+              
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h3>指導教授</h3>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" >江緣貴 教授</a></li>
+              
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h3>國立聯合大學</h3>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" >資訊工程系</a></li>
+              <li><a class="text-muted" >Computer Science and Information Engineering, National United University</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+</div>
+      </div>
+</div>
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../js/vendor/popper.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/vendor/holder.min.js"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+
+    
+    
+    </script>
+  </body>
 </html>
 <script>
 	function Check(event){
-		if(!confirm("您確定要送出訂單嗎?")){
+		if(!confirm("您確定要購買嗎?")){
 			event.preventDefault();
 		}
 	}

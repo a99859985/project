@@ -36,14 +36,17 @@
 	echo"<tr><td><LI><font size=5><a href=account>會員管理</a></font></LI></td></tr>";
 	echo"<tr><td><LI><font size=5><a href=item>商品管理</a></font></LI></td></tr>";
 	echo"<tr><td><LI><font size=5><a href=order>訂單管理</a></font></LI></td></tr>";
+	echo"<tr><td><LI><font size=5><a href=recycle>回收管理</a></font></LI></td></tr>";
 	echo"<tr><td><center><a href=logout.php>登出</a></center></td></tr>";
 	echo "</UL>";
 	echo "</table></center>";
 	
+
+
  ?>
 <hr>
 	<center><table>
-		<tr><td><center>專題成員:  U0424012 彭稟皓 、 U0424011 彭稟皓 、U0424041 徐代晏 、U0424043 徐宏昌 </center></td></tr>
+		<tr><td><center>專題成員:  U0424012 彭稟皓 、 U0424011 林豐禾 、U0424041 徐代晏 、U0424043 徐宏昌 </center></td></tr>
 		<tr><td><center>指導教授:  江緣貴 教授</center></td></tr>
 		<tr><td><center>國立聯合大學 資訊工程學系, Computer Science and Information Engineering, National United University</center></td></tr>
 	</table></center>

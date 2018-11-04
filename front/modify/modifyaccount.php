@@ -43,27 +43,28 @@
 
 	mysqli_query($conn,"SET NAMES UTF8");
 	$member_id			=	$_POST['id'];
-	$member_username	=	$_POST['member_username'];
 	$member_password	=	$_POST['member_password'];
 	$member_passwordconfirm	=	$_POST['member_passwordconfirm'];
-	
-	if ($member_password==$member_passwordconfirm){
-		$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
-
-		if(mysqli_query($conn,$sql)){
-			echo "修改會員資料成功<br>";
-			echo "<button onclick=history.go(-2);>回上一頁</button>";
+	if(strlen($member_password)>=6){
+		if ($member_password==$member_passwordconfirm){
+			$sql = "UPDATE `member` SET `member_password`='$member_password' WHERE `member`.`member_id`=$member_id";
+			if(mysqli_query($conn,$sql)){
+				echo "<script>var msg = '修改會員資料成功';window.alert(msg);</script>";   
+	            echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+			}
+			else{
+				echo "<script>var msg = '修改會員資料失敗';window.alert(msg);</script>";
+	            echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
+			}
 		}
 		else{
-			echo "修改會員資料失敗<br>";
-			echo "<button onclick=history.go(-2);>回上一頁</button>";
-			die();
+			echo "<script>var msg = '密碼確認失敗';window.alert(msg);</script>";
+	        echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
 		}
 	}
 	else{
-		echo "密碼確認錯誤<br>";
-		echo "<button onclick=history.go(-2);>回上一頁</button>";
-		die();
+		echo "<script>var msg = '密碼最少需要6個字';window.alert(msg);</script>";
+	    echo"<meta content='0.1; url=../../logout.php' http-equiv='refresh'>";
 	}
 
 	mysqli_close($conn);

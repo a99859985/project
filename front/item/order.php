@@ -16,7 +16,7 @@
 	$member_password = @$_COOKIE["member_password"];
 	
 	$db_server = "localhost";
-	$db_name   = "pizza";
+	$db_name   = "project";
 	$db_user   = "Ben";
 	$db_passwd = "99859985";
 
@@ -42,22 +42,22 @@
 	$result = mysqli_query($conn,$sql);
 	while($row = mysqli_fetch_row($result)){
 		if($id==$row[0]){
-			$name = $row[3];
+			$name = $row[1];
+			$money= $row[3];
+			$point= $row[4];
 			break;
 		}
 	}
 
 	$total	=	$_POST['total'];
-	$note	=	$_POST['note'];
 	$way	=	$_POST['way'];
-
 	$sql = "SELECT MAX(order_id) FROM order_form";//取得id
 	$result = mysqli_query($conn,$sql);
 	$row = mysqli_fetch_row($result);
 	$order_id = $row[0]+1;
 
 	$amount = $_POST['amount'];
-
+	//echo "$id $total $way $amount";
 	for($i=1;$i<=$amount;++$i){
 
 		$item_id_temp = "item_id_".$i;
@@ -74,28 +74,39 @@
 
 		$subtotal_temp = "subtotal_".$i;
 		$subtotal	=	$_POST[$subtotal_temp];
-
-		$kind_temp	= "kind_".$i;
-		$kind		=	$_POST[$kind_temp];
-
-		$cheese_temp = "cheese_".$i;
-		$cheese		=	$_POST[$cheese_temp];
-
-		$addorder = "INSERT INTO `order_form` (`order_id`, `order_member_id`, `order_member_name`,
-		 `order_item_id`, `order_item_name`, `order_item_price`, `order_quantity`, `order_subtotal`, `order_total`,
-		  `order_time`, `order_status`, `order_kind`, `order_cheese`, `order_note`, `order_way`) 
-		  VALUES ('$order_id', '$id', '$name', '$item_id', '$item_name', '$price', '$quantity', '$subtotal', '$total',NULL, '0', '$kind', '$cheese', '$note', '$way')";
-
-		if(mysqli_query($conn,$addorder)){
-			
+		if($way==0 && $money<$price){
+			echo "<script>var msg = '很抱歉，您的現金不足';window.alert(msg);</script>";
+        	echo"<meta content='0.1; url=index.php' http-equiv='refresh'>";
+		}
+		elseif ($way==1 && $point<$price) {
+			echo "<script>var msg = '很抱歉，您的點數不足';window.alert(msg);</script>";
+        		echo"<meta content='0.1; url=index.php' http-equiv='refresh'>";
 		}
 		else{
-			die("訂購失敗<br>");
+			if ($way==0){
+				$money=$money-$price;
+				$pay = "UPDATE `member` SET `member_money`='$money' WHERE `member`.`member_id`=$id";
+			}
+			elseif ($way==1) {
+				$point=$point-$price;
+				$pay = "UPDATE `member` SET `member_point`='$point' WHERE `member`.`member_id`=$id";
+			}
+			$addorder = "INSERT INTO `order_form` (`order_id`, `order_member_id`, `order_member`,
+			 `order_item_id`, `order_item`, `order_price`, `order_way`,`order_time`) 
+			  VALUES ('$order_id', '$id', '$name', '$item_id', '$item_name', '$price', '$way',NULL)";
+
+			if(mysqli_query($conn,$addorder) && mysqli_query($conn,$pay)){
+				echo "<script>var msg = '訂購成功';window.alert(msg);</script>";
+        		echo"<meta content='0.1; url=index.php' http-equiv='refresh'>";
+			}
+			else{
+				echo "<script>var msg = '購買失敗';window.alert(msg);</script>";
+        		echo"<meta content='0.1; url=index.php' http-equiv='refresh'>";
+			}
 		}
 
 	}
-	echo "訂購成功<br>";
-	echo "<button onclick=history.go(-2);>回上一頁</button>";
+	
 
 	mysqli_close($conn);
 ?>
